@@ -196,6 +196,7 @@ VOLUME /var/www
 
 COPY nginx/nginx.conf /etc/nginx/
 COPY nginx/default.conf /etc/nginx/conf.d/
+COPY weiqing/* /var/www/html/
 #COPY nginx/***.crt /etc/ssl/nginx/
 #COPY nginx/***.key /etc/ssl/nginx/
 COPY supervisord/supervisord.conf /etc/
