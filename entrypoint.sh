@@ -18,7 +18,7 @@ if expr "$1" : [ "$1" = "supervisord" ] ]; then
        chmod -R g=u /var/www
     else
        echo "WeEngine is ready,Now start it ..."
-    vfi
+    fi
 else 
     echo "Wrong parameters,Only supervisord parameters are supported ..."   
     exit 1

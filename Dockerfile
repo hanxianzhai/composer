@@ -174,8 +174,8 @@ RUN { \
     echo 'memory_limit=512M' > /usr/local/etc/php/conf.d/memory-limit.ini; \
     \
 #    mkdir /var/www/data; \
-#    chown -R www-data:root /var/www; \
-#    chmod -R g=u /var/www; \
+    chown -R www-data:root /var/www; \
+    chmod -R g=u /var/www; \
     
     mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak; \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak; \
@@ -196,14 +196,11 @@ VOLUME /var/www
 
 COPY nginx/nginx.conf /etc/nginx/
 COPY nginx/default.conf /etc/nginx/conf.d/
-COPY weiqing/* /var/www/html/
 #COPY nginx/***.crt /etc/ssl/nginx/
 #COPY nginx/***.key /etc/ssl/nginx/
 COPY supervisord/supervisord.conf /etc/
 COPY supervisord/supervisord_fpm.ini /etc/supervisor.d/
 COPY supervisord/supervisord_nginx.ini /etc/supervisor.d/
-RUN chown -R www-data:root /var/www
-RUN chmod -R g=u /var/www
 
 
 EXPOSE 80
