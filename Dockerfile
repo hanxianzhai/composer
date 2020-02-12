@@ -97,7 +97,7 @@ RUN set -x \
     && mv /tmp/envsubst /usr/local/bin/ \
 # Bring in tzdata so users could set the timezones through the environment
 # variables
-    && apk add --no-cache tzdata supervisor rsync \
+    && apk add --no-cache tzdata supervisor \
 # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
@@ -201,6 +201,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 COPY supervisord/supervisord.conf /etc/
 COPY supervisord/supervisord_fpm.ini /etc/supervisor.d/
 COPY supervisord/supervisord_nginx.ini /etc/supervisor.d/
+COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 80
 EXPOSE 443
