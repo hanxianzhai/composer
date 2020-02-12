@@ -6,7 +6,7 @@ version_greater() {
     [ "$(printf '%s\n' "$@" | sort -t '.' -n -k1,1 -k2,2 -k3,3 -k4,4 | head -n 1)" != "$1" ]
 }
 
-if expr "$1" : [ "$1" = "supervisord" ] ]; then   
+if expr "$1" : "supervisord" 1>/dev/null; then   
     if [ -z "$(ls -A "/var/www/html")" ]; then
        cd /var/www/html
        echo "DownLoad WeEngine online install file ..."
