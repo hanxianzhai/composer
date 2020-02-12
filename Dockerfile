@@ -206,5 +206,5 @@ COPY supervisord/supervisord_nginx.ini /etc/supervisor.d/
 EXPOSE 80
 EXPOSE 443
 
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["supervisord"]
