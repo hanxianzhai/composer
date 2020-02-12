@@ -21,11 +21,13 @@ run_as() {
 
 
 
-if expr "$1" : "apache" 1>/dev/null || [ "$1" = "supervisord" ] || [ "$1" = "php-fpm" ] ]; then
-    if directory_empty /var/www/html; then
+if expr "$1" : [ "$1" = "supervisord" ] || [ "$1" = "php-fpm" ] ]; then
+    
+    if [ -z "$(ls -A "/var/www/html")" ]; then
        cd /var/www/html
        echo "DownLoad WeEngine online install file ..."
-       curl -L -O https://cdn.w7.cc/download/WeEngine-Laster-Online.zip && unzip WeEngine-Laster-Online.zip && rm -f WeEngine-Laster-Online.zip
+       
+       #curl -L -O https://cdn.w7.cc/download/WeEngine-Laster-Online.zip && unzip WeEngine-Laster-Online.zip && rm -f WeEngine-Laster-Online.zip
        elif [-f /var/www/html/install.php]; then
        echo "file install.php is ready ..."
        exit 1
