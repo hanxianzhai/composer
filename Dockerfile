@@ -211,7 +211,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/
 COPY supervisord/supervisord.conf /etc/
 COPY supervisord/supervisord_fpm.ini /etc/supervisor.d/
 COPY supervisord/supervisord_nginx.ini /etc/supervisor.d/
-ADD entrypoint.sh /entrypoint.sh
+COPY *.sh upgrade.exclude /
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
