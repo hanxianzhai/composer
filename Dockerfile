@@ -202,7 +202,7 @@ RUN { \
 VOLUME /var/www
 
 COPY weengine-2.5.4.zip /tmp/
-RUN unzip /tmp/weengine.zip -d /usr/src/ && rm -rf /tmp/weengine.zip
+RUN unzip /tmp/weengine-2.5.4.zip -d /usr/src/ && rm -rf /tmp/weengine.zip
 
 COPY nginx/nginx.conf /etc/nginx/
 COPY nginx/default.conf /etc/nginx/conf.d/
