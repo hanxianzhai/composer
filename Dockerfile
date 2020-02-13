@@ -158,6 +158,67 @@ RUN set -eux; \
   composer config -g repo.packagist composer https://mirrors.aliyun.com/composer; \
   find /tmp -type d -exec chmod -v 1777 {} +
 
+# install the PHP extensions we need
+RUN set -ex; \
+    \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        autoconf \
+        freetype-dev \
+        icu-dev \
+        libevent-dev \
+        libjpeg-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libmemcached-dev \
+        libxml2-dev \
+        libzip-dev \
+        openldap-dev \
+        pcre-dev \
+        postgresql-dev \
+        imagemagick-dev \
+        libwebp-dev \
+        gmp-dev \
+    ; \
+    \
+    docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr --with-webp-dir=/usr; \
+    docker-php-ext-configure ldap; \
+    docker-php-ext-install -j "$(nproc)" \
+        exif \
+        gd \
+        intl \
+        ldap \
+        opcache \
+        pcntl \
+        pdo_mysql \
+#        pdo_pgsql \
+        zip \
+        gmp \
+    ; \
+    \
+# pecl will claim success even if one install fails, so we need to perform each install separately
+    pecl install APCu-5.1.18; \
+    pecl install memcached-3.1.5; \
+    pecl install redis-4.3.0; \
+    pecl install imagick-3.4.4; \
+    \
+    docker-php-ext-enable \
+        apcu \
+        memcached \
+        redis \
+        imagick \
+    ; \
+    \
+    runDeps="$( \
+        scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+            | tr ',' '\n' \
+            | sort -u \
+            | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )"; \
+    apk add --virtual .nextcloud-phpext-rundeps $runDeps; \
+    apk del .build-deps
+
+
 ENV WEENGINE_VERSION 2.5.4
 
 #RUN set -ex; \
