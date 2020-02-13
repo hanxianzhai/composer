@@ -158,7 +158,7 @@ RUN set -eux; \
   composer config -g repo.packagist composer https://mirrors.aliyun.com/composer; \
   find /tmp -type d -exec chmod -v 1777 {} +
 
-ENV WEENGINE_VERSION v2.5.4
+ENV WEENGINE_VERSION 2.5.4
 
 RUN set -ex; \
     
