@@ -161,11 +161,15 @@ RUN set -eux; \
 ENV WEENGINE_VERSION 2.5.4
 
 RUN set -ex; \
-    
+    apk add --no-cache --virtual .fetch-deps \
+        unzip \
+    ; \
+    \
     curl -fsSL -o /tmp/weengine.zip \
         "https://github.com/hanxianzhai/composer/blob/master/weengine-${WEENGINE_VERSION}.zip"; \
     unzip /tmp/weengine.zip -d /usr/src/; \
-    rm -rf /tmp/weengine.zip
+    rm -rf /tmp/weengine.zip; \
+    apk del .fetch-deps
 
 # set recommended PHP.ini settings
 RUN { \
