@@ -97,7 +97,7 @@ RUN set -x \
     && mv /tmp/envsubst /usr/local/bin/ \
 # Bring in tzdata so users could set the timezones through the environment
 # variables
-    && apk add --no-cache tzdata supervisor \
+    && apk add --no-cache tzdata supervisor rsync\
 # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
@@ -158,8 +158,16 @@ RUN set -eux; \
   composer config -g repo.packagist composer https://mirrors.aliyun.com/composer; \
   find /tmp -type d -exec chmod -v 1777 {} +
 
+ENV WEENGINE_VERSION v2.5.4
+
+RUN set -ex; \
+    
+    curl -fsSL -o /tmp/weengine.zip \
+        "https://github.com/hanxianzhai/composer/blob/master/weengine-${WEENGINE_VERSION}.zip"; \
+    unzip /tmp/weengine.zip -d /usr/src/; \
+    rm -rf /tmp/weengine.zip; \
+
 # set recommended PHP.ini settings
-# see https://docs.nextcloud.com/server/12/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
 RUN { \
         echo 'opcache.enable=1'; \
         echo 'opcache.interned_strings_buffer=8'; \
